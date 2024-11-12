@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+
+    tools {
+        go 'go'  // Use the default configured Go tool in Jenkins
+    }
+
+    stages {
+        stage('Checkout Specific Folder') {
+            steps {
+                // Configure a sparse checkout for a specific folder
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [
+                        [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '11-HttpServer']]]
+                    ],
+                    userRemoteConfigs: [[url: 'https://github.com/nmdra/Go-Learn.git']]
+                ])
+            }
+        }
+
+        stage('Build Go Executable') {
+            steps {
+                dir('11-HttpServer') {
+                    script {
+                        // Build the Go executable
+                        sh 'go build -o main .'
+                    }
+                }
+            }
+        }
+
+        stage('Run') {
+            steps {
+                dir('11-HttpServer') {
+                    script {
+                        // Make the executable runnable and run it in the background
+                        sh 'chmod +x main'
+                        sh './main &'
+                    }
+                }
+            }
+        }
+
+        stage('Test Hello') {
+            steps {
+                script {
+                    // Wait briefly to ensure the server has started
+                    sleep 5
+                    // Use curl to test the endpoint
+                    def status = sh(script: 'curl -v http://localhost:8089/hello', returnStatus: true)
+                    
+                    // Exit if the test fails or succeeds
+                    if (status == 0) {
+                        echo "Test passed."
+                    } else {
+                        error("Test failed.")
+                    }
+                }
+            }
+        }
+
+        stage('Test Header') {
+            steps {
+                script {
+                    // Wait briefly to ensure the server has started
+                    sleep 5
+                    // Use curl to test the endpoint
+                    def status = sh(script: 'curl -v http://localhost:8089/headers', returnStatus: true)
+                    
+                    // Exit if the test fails or succeeds
+                    if (status == 0) {
+                        echo "Test passed."
+                    } else {
+                        error("Test failed.")
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Kill the Go server process if it's still running
+            sh 'pkill -f "./main" || true'
+        }
+    }
+}
