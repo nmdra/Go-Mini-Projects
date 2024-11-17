@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +26,12 @@ func main() {
 		c.HTML(200, "about.html", nil)
 	})
 
+
+	PORT := os.Getenv("PORT")
+	if PORT == "" {
+		log.Println("Port is not set")
+        PORT = "3000"
+    }
 	// Start the server
-	port := ":3000"
-	r.Run(port) // Listen and serve on http://localhost:8080
+	r.Run(":" + PORT) // Listen and serve on http://localhost:8080
 }

@@ -9,7 +9,9 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the source code
-COPY . .
+COPY main.go ./
+COPY templates templates
+COPY static static
 
 # Build the application with optimizations
 RUN go build -ldflags="-s -w" -o main .
@@ -20,6 +22,8 @@ FROM alpine:latest
 # Set the working directory
 WORKDIR /app
 
+ENV PORT=3000
+
 # Copy the compiled application from the builder stage
 COPY --from=builder /app/main .
 
@@ -28,7 +32,7 @@ COPY --from=builder /app/templates ./templates
 COPY --from=builder /app/static ./static 
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE ${PORT}
 
 # Command to run the application
 CMD ["./main"]
