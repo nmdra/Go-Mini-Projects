@@ -9,7 +9,8 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
+# RUN go build -o main .
+RUN go build -ldflags="-s -w" -o main .
 
 # Stage 2
 

@@ -1,4 +1,4 @@
-module go-learn/11-HttpServer
+module Go-Mini-Projects/01-HttpServer
 
 go 1.23.1
 
