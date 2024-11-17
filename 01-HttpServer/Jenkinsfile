@@ -13,16 +13,16 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     extensions: [
-                        [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '11-HttpServer']]]
+                        [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '01-HttpServer']]]
                     ],
-                    userRemoteConfigs: [[url: 'https://github.com/nmdra/Go-Learn.git']]
+                    userRemoteConfigs: [[url: 'https://github.com/nmdra/Go-Mini-Projects.git']]
                 ])
             }
         }
 
         stage('Build Go Executable') {
             steps {
-                dir('11-HttpServer') {
+                dir('01-HttpServer') {
                     script {
                         // Build the Go executable
                         sh 'go build -o main .'
@@ -33,7 +33,7 @@ pipeline {
 
         stage('Run') {
             steps {
-                dir('11-HttpServer') {
+                dir('01-HttpServer') {
                     script {
                         // Make the executable runnable and run it in the background
                         sh 'chmod +x main'
