@@ -1,0 +1,39 @@
+services:
+  go-server-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - GIN_MODE=release  # Example environment variable
+    networks:
+      - app-network # Set the network
+  go-server-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - GIN_MODE=release  # Example environment variable
+    networks:
+      - app-network # Set the network
+  go-server-3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - GIN_MODE=release  # Example environment variable
+    networks:
+      - app-network # Set the network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl:ro 
+    networks:
+      - app-network
+
+networks:
+  app-network:
