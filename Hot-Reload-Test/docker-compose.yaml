@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+      # Correct the path to your Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    # Important to bind/mount your codebase dir to /app dir for live reload
+    volumes:
+      - ./:/app
