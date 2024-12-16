@@ -10,9 +10,9 @@ import (
 )
 
 func main() {
-	
+
 	t := time.Now() // Record the start time
-	
+
 	links := []string{
 		"http://google.com",
 		"http://linkedin.com",

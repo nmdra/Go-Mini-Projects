@@ -23,7 +23,6 @@ func main() {
 		c.HTML(200, "about.html", nil)
 	})
 
-
 	PORT := "8090"
 
 	// Start the server

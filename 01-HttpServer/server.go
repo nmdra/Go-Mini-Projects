@@ -65,19 +65,18 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-
 func main() {
 
 	enverr := godotenv.Load()
 	if enverr != nil {
-        log.Println("Error loading .env file")
-    }
-	
+		log.Println("Error loading .env file")
+	}
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		log.Println("Port is not set")
-        PORT = "8091"
-    }
+		PORT = "8091"
+	}
 
 	// Handle the /hello route
 	http.Handle("/hello", loggingMiddleware(http.HandlerFunc(hello)))
@@ -88,9 +87,9 @@ func main() {
 	// Start the HTTP server and listen on the specified port
 	fmt.Printf("Server starting on http://localhost:%s\n", PORT)
 
-	err := http.ListenAndServe(":" + PORT, nil)
+	err := http.ListenAndServe(":"+PORT, nil)
 	if err != nil {
-    	// If the server fails to start, print the error and exit
-    	log.Fatal("Error starting server:", err)
+		// If the server fails to start, print the error and exit
+		log.Fatal("Error starting server:", err)
 	}
 }

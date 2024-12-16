@@ -20,6 +20,6 @@ WORKDIR /app
 
 COPY --from=builder /app/main . /app/
 
-EXPOSE 8090
+# EXPOSE 8091
 
 CMD ["./main"]

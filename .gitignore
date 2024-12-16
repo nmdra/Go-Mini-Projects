@@ -26,6 +26,7 @@ go.work.sum
 
 main
 server
+tmp
 
 # ssl
 *.crt

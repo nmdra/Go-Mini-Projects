@@ -26,12 +26,11 @@ func main() {
 		c.HTML(200, "about.html", nil)
 	})
 
-
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		log.Println("Port is not set")
-        PORT = "3000"
-    }
+		PORT = "3000"
+	}
 	// Start the server
 	r.Run(":" + PORT) // Listen and serve on http://localhost:8080
 }
